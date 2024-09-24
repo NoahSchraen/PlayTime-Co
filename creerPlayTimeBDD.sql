@@ -19,6 +19,7 @@ create Table Jouet (
 	id_jouet int primary key not null,
 	nom_jouet varchar(75) ,
 	type_jouet varchar(25),
-	stock int not null 
+	stock int not null,
+	prix int not null
 	
 ) ;
