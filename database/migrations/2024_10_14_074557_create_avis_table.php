@@ -17,6 +17,7 @@ class CreateAvisTable extends Migration
             $table->id();
             $table->string('contenu');
             $table->float('note');
+            $table->foreignID('jouet_id')->constrained('jouets');
             $table->timestamps();
         });
     }
