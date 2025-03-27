@@ -15,11 +15,16 @@ use App\Http\Controllers\test;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Accueil');
 });
 
 Route::get('/Jouets', function(){
-    $jouet = DB::table('jouets')->where('id','=', 1) ->get('nom', 'id') ;
+    $jouet = DB::table('jouets')->select('nom', 'prix') ->where('id','=', 1) ->get();
     //récupération du jouet numéro 1 dans la table jouets
     return view('Jouets', ['jouet' => $jouet]);
+});
+
+Route::get('/Panier', function(){
+    return view('Panier');
+
 });
