@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/Jouets', function(){
-    $jouet = DB::table('jouets')->get('nom', 'id') ->where('id = 1') ;
+    $jouet = DB::table('jouets')->where('id','=', 1) ->get('nom', 'id') ;
+    //récupération du jouet numéro 1 dans la table jouets
     return view('Jouets', ['jouet' => $jouet]);
 });
