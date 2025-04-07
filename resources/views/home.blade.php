@@ -6,6 +6,8 @@
     <title>PlayTime-Co - Boutique de Jouets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- feuille CSS de la page d'accueil -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -61,7 +63,7 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="text-white mb-0">PlayTime-Co</h1>
-                <a href="/panier" class="cart-link" id="cartLink">
+                <a href="./panier" class="cart-link" id="cartLink">
                     <i class="bi bi-cart-fill"></i> Panier
                     <span class="cart-count" id="cartCount">0</span>
                 </a>
@@ -71,11 +73,11 @@
 
     <div class="container py-3">
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-            @foreach ($jouets as $jouet)
+            @foreach ($jouets as $jouet) <!-- récupération des jouets depuis la BDD -->
                 <div class="col">
                     <div class="card shadow-sm">
                         <div class="card-body position-relative">
-                            <span class="badge bg-primary badge-type">{{ $jouet->type }}</span>
+                            <span class="badge bg-primary badge-type">{{ $jouet->type }}</span> <!-- récupération du type, nom, et prix des jouets -->
                             <h5 class="card-title">{{ $jouet->nom }}</h5>
                             <p class="card-text text-success fw-bold">{{ number_format($jouet->prix, 2) }} €</p>
                             <p class="text-muted">En stock: {{ $jouet->stock }}</p>
@@ -90,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @endforeach <!-- fin de la boucle foreach -->
         </div>
     </div>
 
@@ -116,6 +118,8 @@
                         return;
                     }
                     
+                    //fonction pour reduire le stock dans la bdd a implémenter ici, utiliser productStock
+
                     // Vérifier si le produit est déjà dans le panier
                     const existingItem = cart.find(item => item.id === productId);
                     

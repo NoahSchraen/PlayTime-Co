@@ -6,6 +6,8 @@
     <title>Mon Panier - PlayTime-Co</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- feille CSS du panier -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -158,10 +160,10 @@
     <div class="container">
         <h1>Mon Panier</h1>
         
-        <div class="empty-cart" id="emptyCart">
+        <div class="empty-cart" id="emptyCart"> <!-- Affichage si le panier est vide -->
             <h2>Votre panier est vide</h2>
             <p>Parcourez nos produits et ajoutez des articles à votre panier</p>
-            <a href="/" class="checkout-btn">Voir les produits</a>
+            <a href="./" class="checkout-btn">Voir les produits</a>
         </div>
         
         <div class="cart-items" id="cartItems">
@@ -187,8 +189,8 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.addEventListener('DOMContentLoaded', function() { //Code javascript fournis par Bootstrap
+            let cart = JSON.parse(localStorage.getItem('cart')) || []; //Creation du panier et declaration des constantes
             const cartItemsEl = document.getElementById('cartItems');
             const emptyCartEl = document.getElementById('emptyCart');
             const cartSummaryEl = document.getElementById('cartSummary');
@@ -201,12 +203,12 @@
             updateCartHeader();
             
             function toggleCartElements() {
-                if (cart.length === 0) {
+                if (cart.length === 0) { //si panier est vide, enlevement de l'affichage du panier (avec objet)
                     emptyCartEl.classList.remove('hidden');
                     cartItemsEl.classList.add('hidden');
                     cartSummaryEl.classList.add('hidden');
                     proceedCheckoutEl.classList.add('hidden');
-                } else {
+                } else { //sinon affichage du panier avec objet
                     emptyCartEl.classList.add('hidden');
                     cartItemsEl.classList.remove('hidden');
                     cartSummaryEl.classList.remove('hidden');
@@ -299,7 +301,8 @@
                     // updateCart();
                 });
             }
-            
+
+            //Mise a jour du résumé de la commande
             function updateSummary() {
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const shipping = subtotal > 50 ? 0 : 4.99; // Livraison gratuite si > 50€
