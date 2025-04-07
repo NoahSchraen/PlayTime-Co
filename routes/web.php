@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\test;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +15,14 @@ use App\Http\Controllers\test;
 |
 */
 
-Route::get('/', function () {
-    return view('Accueil');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/Jouets', function(){
-    $jouet = DB::table('jouets')->select('nom', 'prix') ->where('id','=', 1) ->get();
-    //récupération du jouet numéro 1 dans la table jouets
+    $jouet = DB::table('jouets')->select('nom', 'prix')->where('id','=', 1)->get();
     return view('Jouets', ['jouet' => $jouet]);
 });
 
-Route::get('/Panier', function(){
-    return view('Panier');
+Route::get('/panier', function(){
+    return view('panier');
 
 });
