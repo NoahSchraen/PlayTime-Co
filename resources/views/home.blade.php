@@ -120,14 +120,19 @@
                     
                      //Reduction du stock côté client
                      productStock -=1 ;
-
+                    
+                     //Mets a jour l'affichage du stock côté client
                      this.dataset.stock = productStock ;
 
+
+                     //Modification de l'affichage avec la nouvelle valeure du stock
                     const cardBody = this.closest('.card-body');
                     const stockDisplay = cardBody.querySelector('.badge-stock') ;
+                    const btnValide = document.querySelector('.add-to-cart');
                     if(stockDisplay){
                         stockDisplay.textContent = `Stock disponible: ${productStock}`;
                     }
+                    
                     
 
                     // Vérifier si le produit est déjà dans le panier
@@ -167,38 +172,6 @@
                     updateStockOnServer(productId, productStock);
                 });
             });
-            
-            /*function updateStockOnServer(productId, newStock){
-                fetch('/update-stock', {
-                    method : 'POST',
-                    headers : {
-                        'Content-Type' : 'application/json' , 
-                        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content 
-                    },
-                    body : JSON.stringify({
-                        id : productId,
-                        stock : newStock
-                    })
-                })
-                .then(response => {
-                    if (!response.ok){
-                        throw new Error('Erreure lors de la mise à jour du stock BDD');
-                    }
-                    return response.json();
-                })
-                .catch(error => {
-                    console.error('Erreur:' , error);
-                    const button = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
-                    button.dataset.stock = parseInt(button.dataset.stock) + 1 ;
-                    const cardBody = button.closest('.card-body');
-                    const stockDisplay = cardBody.querySelector('.badge-stock');
-                    if (stockDisplay) {
-                        stockDisplay.textContent = `Stock disponible: ${parseInt(button.dataset.stock)}`;
-                    }
-                    alert('Une erreur est survenue, veuillez réessayer');
-                });
-            }*/
-
             // Mettre à jour le compteur du panier
             function updateCartCount() {
                 const count = cart.reduce((total, item) => total + item.quantity, 0);

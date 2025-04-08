@@ -26,15 +26,7 @@
             display: flex;
             align-items: center;
         }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
+       
         h1 {
             color: #333;
             text-align: center;
@@ -145,16 +137,18 @@
     </style>
 </head>
 <body>
-    <header class="header">
+<header class="header">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <a href="./">PlayTime-Co</a>
+                <a href="./" class="text-decoration-none">
+                    <h1 class="text-white mb-0">PlayTime-Co</h1>
+                </a>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <h1>Mon Panier</h1>
+        <h1>Mon panier</h1>
         
         <div class="empty-cart" id="emptyCart"> <!-- Affichage si le panier est vide -->
             <h2>Votre panier est vide</h2>
@@ -247,11 +241,10 @@
                     btn.addEventListener('click', function() {
                         const productId = this.closest('.cart-item').dataset.productId;
                         const itemIndex = cart.findIndex(item => item.id === productId);
-                        let productStock = parseInt(this.dataset.stock);
                         
                         if (cart[itemIndex].quantity > 1) {
                             cart[itemIndex].quantity -= 1;
-                        } else {
+                        }else {
                             cart.splice(itemIndex, 1);
                         }
                         
@@ -264,6 +257,14 @@
                     btn.addEventListener('click', function() {
                         const productId = this.closest('.cart-item').dataset.productId;
                         const item = cart.find(item => item.id === productId);
+                        
+                        //const productStock = parseInt(cartItemEl.dataset.stock);
+                        /*if (cart[itemIndex].quantity > 1) {     tentative de vérification de stock avant augmentation quantité dans panier
+                            if((cart[itemIndex].quantity -1) > productStock) {
+                                alert('Vous ne pouvez pas commander plus que le stock disponible');
+                            }
+                            */
+
                         item.quantity += 1;
                         updateCart();
                     });
