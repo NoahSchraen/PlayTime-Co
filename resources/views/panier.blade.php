@@ -148,11 +148,7 @@
     <header class="header">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="text-white mb-0">PlayTime-Co</h1>
-                <a href="/panier" class="cart-link">
-                    <i class="bi bi-cart-fill"></i> Panier
-                    <span class="cart-count" id="cartCountHeader">0</span>
-                </a>
+                <a href="./">PlayTime-Co</a>
             </div>
         </div>
     </header>
@@ -251,6 +247,7 @@
                     btn.addEventListener('click', function() {
                         const productId = this.closest('.cart-item').dataset.productId;
                         const itemIndex = cart.findIndex(item => item.id === productId);
+                        let productStock = parseInt(this.dataset.stock);
                         
                         if (cart[itemIndex].quantity > 1) {
                             cart[itemIndex].quantity -= 1;
@@ -297,8 +294,8 @@
                     e.preventDefault();
                     alert(`Commande passée ! Total: ${document.getElementById('total').textContent}`);
                     // Ici vous pourriez vider le panier après la commande
-                    // cart = [];
-                    // updateCart();
+                     cart = [];
+                    updateCart();
                 });
             }
 

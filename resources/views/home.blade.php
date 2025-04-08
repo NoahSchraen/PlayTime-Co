@@ -77,10 +77,10 @@
                 <div class="col">
                     <div class="card shadow-sm">
                         <div class="card-body position-relative">
-                            <span class="badge bg-primary badge-type">{{ $jouet->type }}</span> <!-- récupération du type, nom, et prix des jouets -->
+                            <span class="badge bg-primary badge-type">{{ $jouet->type }}</span> <!-- récupération et affichage du type, nom, et prix des jouets -->
                             <h5 class="card-title">{{ $jouet->nom }}</h5>
                             <p class="card-text text-success fw-bold">{{ number_format($jouet->prix, 2) }} €</p>
-                            <p class="text-muted">En stock: {{ $jouet->stock }}</p>
+                            <p class="badge-stock">Stock disponible: {{ $jouet->stock }}</p>
                             <button class="btn btn-outline-primary w-100 add-to-cart" 
                                     data-id="{{ $jouet->id }}"
                                     data-name="{{ $jouet->nom }}"
@@ -109,16 +109,26 @@
                     const productId = this.dataset.id;
                     const productName = this.dataset.name;
                     const productPrice = parseFloat(this.dataset.price);
-                    const productStock = parseInt(this.dataset.stock);
+                    let productStock = parseInt(this.dataset.stock);
                     const productImage = this.dataset.image;
-                    
+
                     // Vérifier le stock
                     if (productStock <= 0) {
                         alert('Ce produit est en rupture de stock');
                         return;
                     }
                     
-                    //fonction pour reduire le stock dans la bdd a implémenter ici, utiliser productStock
+                     //Reduction du stock côté client
+                     productStock -=1 ;
+
+                     this.dataset.stock = productStock ;
+
+                    const cardBody = this.closest('.card-body');
+                    const stockDisplay = cardBody.querySelector('.badge-stock') ;
+                    if(stockDisplay){
+                        stockDisplay.textContent = `Stock disponible: ${productStock}`;
+                    }
+                    
 
                     // Vérifier si le produit est déjà dans le panier
                     const existingItem = cart.find(item => item.id === productId);
@@ -138,6 +148,8 @@
                             quantity: 1
                         });
                     }
+
+
                     
                     // Sauvegarder dans le localStorage
                     localStorage.setItem('cart', JSON.stringify(cart));
@@ -151,9 +163,42 @@
                         this.textContent = originalText;
                         this.classList.remove('added');
                     }, 2000);
+
+                    updateStockOnServer(productId, productStock);
                 });
             });
             
+            /*function updateStockOnServer(productId, newStock){
+                fetch('/update-stock', {
+                    method : 'POST',
+                    headers : {
+                        'Content-Type' : 'application/json' , 
+                        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content 
+                    },
+                    body : JSON.stringify({
+                        id : productId,
+                        stock : newStock
+                    })
+                })
+                .then(response => {
+                    if (!response.ok){
+                        throw new Error('Erreure lors de la mise à jour du stock BDD');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Erreur:' , error);
+                    const button = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
+                    button.dataset.stock = parseInt(button.dataset.stock) + 1 ;
+                    const cardBody = button.closest('.card-body');
+                    const stockDisplay = cardBody.querySelector('.badge-stock');
+                    if (stockDisplay) {
+                        stockDisplay.textContent = `Stock disponible: ${parseInt(button.dataset.stock)}`;
+                    }
+                    alert('Une erreur est survenue, veuillez réessayer');
+                });
+            }*/
+
             // Mettre à jour le compteur du panier
             function updateCartCount() {
                 const count = cart.reduce((total, item) => total + item.quantity, 0);
